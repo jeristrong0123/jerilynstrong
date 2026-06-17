@@ -991,13 +991,12 @@ there is a way."<br/>
     const email = document.getElementById("pEmail").value.trim();
     const phone = document.getElementById("pPhone").value.trim();
     try {
-      // REPLACE service_b5cj38h and template_2tgrbnv
-      await emailjs.send("service_b5cj38h","template_2tgrbnv",{
-        to_name: name, to_email: email, phone: phone||"Not provided",
-        workbook_link: "https://drive.google.com/file/d/18rj5Q7FTc07WJfJFx17Z1BXA5mGTt2__/view?usp=drive_link",
-        booking_link: "https://calendar.app.google/mCbNh4DzBowpePbcA",
-        from_name: "Jerilyn Strong", reply_to: "jstrongspeaks@gmail.com"
+      const res = await fetch("https://formspree.io/f/mbdeezly", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name, email, phone: phone||"Not provided", _subject: "New Workbook Request — Jerilyn Strong" })
       });
+      if (!res.ok) throw new Error("Formspree error");
       document.getElementById("popupForm").style.display = "none";
       document.getElementById("popupThanks").style.display = "block";
     } catch(err) {
