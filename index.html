@@ -1011,13 +1011,15 @@ there is a way."<br/>
       if (!res.ok) throw new Error("Formspree error");
 
       // Send to ConvertKit (sends workbook email to lead)
-      const kitData = new FormData();
-      kitData.append("email_address", email);
-      kitData.append("first_name", name.split(" ")[0]);
-      kitData.append("fields[phone]", phone||"");
-      await fetch("https://app.kit.com/forms/ec4e336172/subscriptions", {
+      await fetch("https://api.convertkit.com/v3/forms/ec4e336172/subscribe", {
         method: "POST",
-        body: kitData
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          api_key: "sIzx3gNPaa_XdZ2mHIqeFdf1Qz6xS3L4BIXKH6VbwQU",
+          email: email,
+          first_name: name.split(" ")[0],
+          fields: { phone: phone||"" }
+        })
       });
 
       document.getElementById("popupForm").style.display = "none";
